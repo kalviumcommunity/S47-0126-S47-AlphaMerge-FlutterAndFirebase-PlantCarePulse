@@ -1,0 +1,43 @@
+{
+	"info": {
+		"_postman_id": "dce69f42-fe96-44ee-a7da-56d9b9a0d7db",
+		"name": "Flutter-Firebase API Documentation",
+		"description": "Version: 1.0.0  \nBase URL: [https://your-app.firebaseapp.com](https://your-app.firebaseapp.com)  \nAuth: Firebase Token / OAuth  \nUpdated: 2025-11-13\n\nNote:  \nThis documentation represents planned Firebase integration.  \nFirebase services are not yet connected in the current sprint.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "32417335"
+	},
+	"item": [
+		{
+			"name": "User Sign Up",
+			"request": {
+				"method": "POST",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "User Login",
+			"request": {
+				"method": "POST",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch Data",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Save Data",
+			"request": {
+				"method": "POST",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
