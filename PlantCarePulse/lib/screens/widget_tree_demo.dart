@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 /// Widget Tree and Reactive UI Demo
 /// This screen demonstrates Flutter's widget tree structure and reactive UI model
 /// through interactive examples and visual representations.
+/// 
+/// Refactored into smaller, independent components for better performance
+/// and to properly demonstrate selective UI updates.
 class WidgetTreeDemo extends StatefulWidget {
   const WidgetTreeDemo({super.key});
 
@@ -11,22 +14,22 @@ class WidgetTreeDemo extends StatefulWidget {
 }
 
 class _WidgetTreeDemoState extends State<WidgetTreeDemo> {
-  // State variables for reactive UI demonstration
-  int _counter = 0;
+  // Global theme state - affects multiple components
   bool _isDarkTheme = false;
-  bool _showDetails = false;
-  String _selectedPlant = 'Aloe Vera';
+  
+  // State variables for the demo
+  int _counter = 0;
   double _waterLevel = 50.0;
+  String _selectedPlant = 'Aloe Vera';
+  bool _showDetails = false;
   
-  // Plant data for demonstration
-  final List<String> _plants = ['Aloe Vera', 'Snake Plant', 'Peace Lily', 'Monstera'];
-  
-  // Methods to update state and trigger UI rebuilds
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  // Plant options
+  final List<String> _plants = [
+    'Aloe Vera',
+    'Snake Plant',
+    'Peace Lily',
+    'Monstera',
+  ];
   
   void _toggleTheme() {
     setState(() {
@@ -34,9 +37,9 @@ class _WidgetTreeDemoState extends State<WidgetTreeDemo> {
     });
   }
   
-  void _toggleDetails() {
+  void _incrementCounter() {
     setState(() {
-      _showDetails = !_showDetails;
+      _counter++;
     });
   }
   
@@ -53,10 +56,17 @@ class _WidgetTreeDemoState extends State<WidgetTreeDemo> {
       _waterLevel = newLevel;
     });
   }
+  
+  void _toggleDetails() {
+    setState(() {
+      _showDetails = !_showDetails;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     // This build method demonstrates the widget tree structure
+    // Now with independent components that manage their own state
     return Theme(
       data: _isDarkTheme ? ThemeData.dark() : ThemeData.light(),
       child: Scaffold(
@@ -64,6 +74,29 @@ class _WidgetTreeDemoState extends State<WidgetTreeDemo> {
         body: _buildBody(),
         floatingActionButton: _buildFloatingActionButton(),
         bottomNavigationBar: _buildBottomNavigation(),
+      ),
+    );
+  }
+
+  /// Main body widget - now contains independent components
+  Widget _buildBody() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildWelcomeCard(),
+          const SizedBox(height: 20),
+          _buildCounterSection(),
+          const SizedBox(height: 20),
+          _buildPlantSelectorSection(),
+          const SizedBox(height: 20),
+          _buildWaterLevelSection(),
+          const SizedBox(height: 20),
+          _buildDetailsSection(),
+          const SizedBox(height: 20),
+          _buildReactiveUIExplanation(),
+        ],
       ),
     );
   }
@@ -86,29 +119,6 @@ class _WidgetTreeDemoState extends State<WidgetTreeDemo> {
           tooltip: 'Show Widget Tree',
         ),
       ],
-    );
-  }
-
-  /// Main body widget - demonstrates complex nested structure
-  Widget _buildBody() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildWelcomeCard(),
-          const SizedBox(height: 20),
-          _buildCounterSection(),
-          const SizedBox(height: 20),
-          _buildPlantSelectorSection(),
-          const SizedBox(height: 20),
-          _buildWaterLevelSection(),
-          const SizedBox(height: 20),
-          _buildDetailsSection(),
-          const SizedBox(height: 20),
-          _buildReactiveUIExplanation(),
-        ],
-      ),
     );
   }
 
