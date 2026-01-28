@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/responsive_home.dart';
+import 'screens/widget_tree_demo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
         '/responsive': (context) => const ResponsiveHome(),
+        '/widget-tree': (context) => const WidgetTreeDemo(),
       },
     );
   }
@@ -120,6 +122,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pushNamed(context, '/responsive');
               },
               child: const Text('Open Responsive UI'),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/widget-tree');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green[600],
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Widget Tree Demo'),
             ),
           ],
         ),
