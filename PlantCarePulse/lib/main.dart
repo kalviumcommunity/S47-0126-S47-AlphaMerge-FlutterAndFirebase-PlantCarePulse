@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/responsive_home.dart';
 import 'screens/widget_tree_demo.dart';
+import 'screens/stateless_stateful_demo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
         '/responsive': (context) => const ResponsiveHome(),
         '/widget-tree': (context) => const WidgetTreeDemo(),
+        '/stateless-stateful': (context) => const StatelessStatefulDemo(),
       },
     );
   }
@@ -133,6 +135,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 foregroundColor: Colors.white,
               ),
               child: const Text('Widget Tree Demo'),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/stateless-stateful');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue[600],
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Stateless vs Stateful Demo'),
             ),
           ],
         ),
