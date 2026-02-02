@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'screens/responsive_home.dart';
 import 'screens/widget_tree_demo.dart';
 import 'screens/stateless_stateful_demo.dart';
+import 'screens/home_screen.dart';
+import 'screens/second_screen.dart';
+import 'screens/third_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,6 +27,9 @@ class MyApp extends StatelessWidget {
         '/responsive': (context) => const ResponsiveHome(),
         '/widget-tree': (context) => const WidgetTreeDemo(),
         '/stateless-stateful': (context) => const StatelessStatefulDemo(),
+        '/navigation-home': (context) => const HomeScreen(),
+        '/second': (context) => const SecondScreen(),
+        '/third': (context) => const ThirdScreen(),
       },
     );
   }
@@ -95,6 +101,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 foregroundColor: Colors.white,
               ),
               child: const Text('Stateless vs Stateful Demo'),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/navigation-home');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.purple[600],
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Multi-Screen Navigation Demo'),
             ),
           ],
         ),
