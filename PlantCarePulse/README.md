@@ -14,79 +14,43 @@ A fully responsive Flutter application that demonstrates adaptive UI design for 
 - **Debug overlay** – Optional responsive debug panel showing real-time screen metrics
 
 ---
+# Responsive & Scrollable UI – PlantCarePulse
 
-## Responsiveness Implementation
+This Flutter project demonstrates **responsive layouts** and **scrollable views** for the PlantCarePulse plant care management app. The UI adapts to different screen sizes (phone and tablet) and includes dynamic scrolling components using ListView and GridView.
 
-### A) MediaQuery Usage
-
-MediaQuery is used to obtain screen dimensions and determine device type and orientation:
-
-```dart
-@override
-Widget build(BuildContext context) {
-  final mediaQuery = MediaQuery.of(context);
-  final screenWidth = mediaQuery.size.width;
-  final screenHeight = mediaQuery.size.height;
-
-  final bool isTablet = screenWidth > 600;
-  final bool isLandscape = screenWidth > screenHeight;
-
-  final double basePadding = _clampPadding(screenWidth * 0.04);
-  final double titleSize = isTablet ? 22 : 18;
-  final double bodySize = isTablet ? 16 : 14;
-
-  // ...
-}
-```
-
-### B) LayoutBuilder Usage
-
-LayoutBuilder provides parent constraints to make layout decisions based on available space:
-
-```dart
-body: SafeArea(
-  child: LayoutBuilder(
-    builder: (context, constraints) {
-      final bool isTabletLayout = constraints.maxWidth > 600;
-
-      return Stack(
-        children: [
-          _buildResponsiveBody(
-            context: context,
-            constraints: constraints,
-            isTablet: isTabletLayout,
-            isLandscape: isLandscape,
-            basePadding: basePadding,
-            titleSize: titleSize,
-            bodySize: bodySize,
-          ),
-          // Debug overlay...
-        ],
-      );
-    },
-  ),
-),
-```
-
-### C) Layout Selection Logic
-
-Different layouts are selected based on device type and orientation:
-
-```dart
-Widget _buildResponsiveBody({...}) {
-  if (isTablet && isLandscape) {
-    return _buildTabletLandscape(...);
-  } else if (isTablet && !isLandscape) {
-    return _buildTabletPortrait(...);
-  } else if (!isTablet && isLandscape) {
-    return _buildPhoneLandscape(...);
-  } else {
-    return _buildPhonePortrait(...);
-  }
-}
-```
+The implementation showcases Flutter layout fundamentals including **Container**, **Row**, **Column**, **MediaQuery**, and **LayoutBuilder**, along with performance-optimized scrollable widgets.
 
 ---
+
+## 🚀 Features
+
+- **Responsive Layout**
+  - Phone layout → Vertical stacking using Column
+  - Tablet layout → Side-by-side panels using Row
+  - Layout switches automatically using MediaQuery
+
+- **Scrollable Views**
+  - Horizontal ListView cards
+  - Vertical ListView user list
+  - GridView layouts for dashboard-style tiles
+
+- **Overflow-Free UI**
+  - Uses Expanded, Flexible, and shrinkWrap to prevent layout overflow
+
+- **Adaptive Spacing & Structure**
+  - Consistent padding and alignment across devices
+
+---
+
+## 📱 Responsiveness Implementation
+
+### MediaQuery Usage
+
+Used to detect screen width and switch layouts:
+
+```dart
+double width = MediaQuery.of(context).size.width;
+bool isTablet = width > 600;
 
 ## Screenshots
 
