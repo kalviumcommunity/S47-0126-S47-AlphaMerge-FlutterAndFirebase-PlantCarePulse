@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'firebase_options.dart';
 import 'screens/responsive_home.dart';
 import 'screens/widget_tree_demo.dart';
 import 'screens/stateless_stateful_demo.dart';
@@ -9,8 +12,15 @@ import 'screens/scrollable_views.dart';
 import 'screens/user_input_form.dart';
 import 'screens/custom_widgets_demo.dart';
 import 'screens/plant_care_screen.dart';
+import 'screens/auth/login_screen.dart';
+import 'screens/auth/signup_screen.dart';
+import 'screens/auth/auth_wrapper.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -27,7 +37,10 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const MyHomePage(title: 'Hot Reload & Debug Demo'),
+        '/': (context) => const AuthWrapper(),
+        '/login': (context) => const LoginScreen(),
+        '/signup': (context) => const SignupScreen(),
+        '/home': (context) => const MyHomePage(title: 'Plant Care Pulse'),
         '/responsive': (context) => const ResponsiveHome(),
         '/widget-tree': (context) => const WidgetTreeDemo(),
         '/stateless-stateful': (context) => const StatelessStatefulDemo(),
@@ -66,15 +79,25 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        backgroundColor: Colors.orange, // Change color → Hot Reload demo
+        backgroundColor: Colors.green[600],
+        foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+            },
+            tooltip: 'Logout',
+          ),
+        ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Hot Reload is Working 🚀',
-              style: TextStyle(fontSize: 18, color: Colors.blue),
+              'Welcome to Plant Care Pulse! 🌱',
+              style: TextStyle(fontSize: 18, color: Colors.green),
             ),
             const SizedBox(height: 20),
             Text(
