@@ -7,6 +7,8 @@ import 'screens/second_screen.dart';
 import 'screens/third_screen.dart';
 import 'screens/scrollable_views.dart';
 import 'screens/user_input_form.dart';
+import 'screens/custom_widgets_demo.dart';
+import 'screens/plant_care_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,6 +36,8 @@ class MyApp extends StatelessWidget {
         '/third': (context) => const ThirdScreen(),
         '/scrollable-views': (context) => const ScrollableViews(),
         '/user-input-form': (context) => const UserInputForm(),
+        '/custom-widgets': (context) => const CustomWidgetsDemo(),
+        '/plant-care': (context) => const PlantCareScreen(),
       },
     );
   }
@@ -138,6 +142,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 foregroundColor: Colors.white,
               ),
               child: const Text('User Input Form Demo'),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/custom-widgets');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green[600],
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Custom Widgets Demo'),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/plant-care');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal[600],
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Plant Care Center'),
             ),
           ],
         ),
