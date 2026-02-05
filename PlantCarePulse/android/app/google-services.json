@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "422724030453",
+    "project_id": "plantcareplus-b64a2",
+    "storage_bucket": "plantcareplus-b64a2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:422724030453:android:108bafc9e87cc7d5de1abc",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChBvHiDfwwSutDnotwz6lVkqHTrVl-fe8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
