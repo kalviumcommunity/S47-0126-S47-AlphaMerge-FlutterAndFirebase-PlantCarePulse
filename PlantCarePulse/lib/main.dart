@@ -10,11 +10,15 @@ import 'screens/second_screen.dart';
 import 'screens/third_screen.dart';
 import 'screens/scrollable_views.dart';
 import 'screens/user_input_form.dart';
+<<<<<<< HEAD
+import 'screens/state_management_demo.dart';
+=======
 import 'screens/custom_widgets_demo.dart';
 import 'screens/plant_care_screen.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/signup_screen.dart';
 import 'screens/auth/auth_wrapper.dart';
+>>>>>>> origin/main
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,8 +53,12 @@ class MyApp extends StatelessWidget {
         '/third': (context) => const ThirdScreen(),
         '/scrollable-views': (context) => const ScrollableViews(),
         '/user-input-form': (context) => const UserInputForm(),
+<<<<<<< HEAD
+        '/state-management': (context) => StateManagementDemo(),
+=======
         '/custom-widgets': (context) => const CustomWidgetsDemo(),
         '/plant-care': (context) => const PlantCareScreen(),
+>>>>>>> origin/main
       },
     );
   }
@@ -169,6 +177,15 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () {
+<<<<<<< HEAD
+                Navigator.pushNamed(context, '/state-management');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepOrange[600],
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('State Management Demo'),
+=======
                 Navigator.pushNamed(context, '/custom-widgets');
               },
               style: ElevatedButton.styleFrom(
@@ -187,6 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 foregroundColor: Colors.white,
               ),
               child: const Text('Plant Care Center'),
+>>>>>>> origin/main
             ),
           ],
         ),
