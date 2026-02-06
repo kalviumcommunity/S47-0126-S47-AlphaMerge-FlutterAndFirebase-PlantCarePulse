@@ -218,7 +218,7 @@ class ResponsiveHome extends StatelessWidget {
         const SizedBox(height: 12),
         LayoutBuilder(
           builder: (context, constraints) {
-            if (screenWidth < 600) {
+            if (constraints.maxWidth < 600) {
               // Mobile: Vertical stack
               return Column(
                 children: [
