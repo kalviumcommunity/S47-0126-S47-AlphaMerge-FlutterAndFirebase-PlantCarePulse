@@ -69,7 +69,7 @@ class ResponsiveHome extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              '� MediaQuery Device Info',
+              '📱 MediaQuery Device Info',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
