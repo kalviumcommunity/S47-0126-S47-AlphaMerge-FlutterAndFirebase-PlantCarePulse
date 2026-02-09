@@ -10,15 +10,13 @@ import 'screens/second_screen.dart';
 import 'screens/third_screen.dart';
 import 'screens/scrollable_views.dart';
 import 'screens/user_input_form.dart';
-<<<<<<< HEAD
 import 'screens/state_management_demo.dart';
-=======
 import 'screens/custom_widgets_demo.dart';
 import 'screens/plant_care_screen.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/signup_screen.dart';
 import 'screens/auth/auth_wrapper.dart';
->>>>>>> origin/main
+import 'screens/animations_demo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,12 +51,10 @@ class MyApp extends StatelessWidget {
         '/third': (context) => const ThirdScreen(),
         '/scrollable-views': (context) => const ScrollableViews(),
         '/user-input-form': (context) => const UserInputForm(),
-<<<<<<< HEAD
         '/state-management': (context) => StateManagementDemo(),
-=======
         '/custom-widgets': (context) => const CustomWidgetsDemo(),
         '/plant-care': (context) => const PlantCareScreen(),
->>>>>>> origin/main
+        '/animations': (context) => const AnimationsDemo(),
       },
     );
   }
@@ -177,7 +173,6 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () {
-<<<<<<< HEAD
                 Navigator.pushNamed(context, '/state-management');
               },
               style: ElevatedButton.styleFrom(
@@ -185,7 +180,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 foregroundColor: Colors.white,
               ),
               child: const Text('State Management Demo'),
-=======
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
                 Navigator.pushNamed(context, '/custom-widgets');
               },
               style: ElevatedButton.styleFrom(
@@ -204,7 +202,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 foregroundColor: Colors.white,
               ),
               child: const Text('Plant Care Center'),
->>>>>>> origin/main
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/animations');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.purple[600],
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Animations & Transitions'),
             ),
           ],
         ),
