@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
+import 'firebase_verification.dart';
 import 'screens/responsive_home.dart';
 import 'screens/widget_tree_demo.dart';
 import 'screens/stateless_stateful_demo.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignupScreen(),
         '/home': (context) => const MyHomePage(title: 'Plant Care Pulse'),
+        '/firebase-verification': (context) => const FirebaseVerificationScreen(),
         '/responsive': (context) => const ResponsiveHome(),
         '/widget-tree': (context) => const WidgetTreeDemo(),
         '/stateless-stateful': (context) => const StatelessStatefulDemo(),
@@ -86,6 +88,13 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.green[600],
         foregroundColor: Colors.white,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.verified),
+            onPressed: () {
+              Navigator.pushNamed(context, '/firebase-verification');
+            },
+            tooltip: 'Firebase Verification',
+          ),
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {

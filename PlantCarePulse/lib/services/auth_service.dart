@@ -60,7 +60,7 @@ class AuthService {
   // Reset password
   Future<void> resetPassword(String email) async {
     try {
-      await _auth.sendPasswordResetEmail(email);
+      await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {
       rethrow;
     }
