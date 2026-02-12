@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Plant {
   final String id;
   final String name;
@@ -22,6 +24,46 @@ class Plant {
     required this.description,
     required this.careTips,
   });
+
+  // Convert Plant to Map for Firestore
+  Map<String, dynamic> toMap() {
+    return {
+      'plantId': id,
+      'name': name,
+      'scientificName': scientificName,
+      'category': category,
+      'imageEmoji': imageEmoji,
+      'wateringFrequencyDays': wateringFrequencyDays,
+      'sunlight': sunlight,
+      'difficulty': difficulty,
+      'description': description,
+      'careTips': careTips,
+      'createdAt': FieldValue.serverTimestamp(),
+      'updatedAt': FieldValue.serverTimestamp(),
+    };
+  }
+
+  // Create Plant from Firestore document
+  factory Plant.fromMap(Map<String, dynamic> map, String documentId) {
+    return Plant(
+      id: documentId,
+      name: map['name'] ?? '',
+      scientificName: map['scientificName'] ?? '',
+      category: map['category'] ?? '',
+      imageEmoji: map['imageEmoji'] ?? '🌱',
+      wateringFrequencyDays: map['wateringFrequencyDays'] ?? 7,
+      sunlight: map['sunlight'] ?? '',
+      difficulty: map['difficulty'] ?? 'Medium',
+      description: map['description'] ?? '',
+      careTips: List<String>.from(map['careTips'] ?? []),
+    );
+  }
+
+  // Create Plant from Firestore DocumentSnapshot
+  factory Plant.fromFirestore(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    return Plant.fromMap(data, doc.id);
+  }
 
   // Sample plant data
   static List<Plant> getSamplePlants() {
