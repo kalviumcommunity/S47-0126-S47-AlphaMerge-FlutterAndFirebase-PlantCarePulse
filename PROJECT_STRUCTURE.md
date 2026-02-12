@@ -1,193 +1,193 @@
-# Flutter Project Structure Documentation
+# Plant Care Pulse - Project Structure
 
-This document was created as part of Sprint-2 to explore and understand the default Flutter project structure and how it supports scalable cross-platform development.
+## Overview
+A real, working plant care application that demonstrates Flutter concepts through practical features users would actually use.
 
----
-
-## Introduction
-
-Flutter follows a well-organized project structure that separates platform-specific code, application logic, assets, and configuration files. This structure enables developers to build cross-platform applications while maintaining clean, scalable, and maintainable code. Understanding each folder's purpose is crucial for effective Flutter development and team collaboration.
-
----
-
-## Project Structure Overview
+## Directory Structure
 
 ```
 PlantCarePulse/
-├── android/                    # Android-specific files and configurations
-├── ios/                        # iOS-specific files and configurations
-├── lib/                        # Main Dart application code
-├── linux/                      # Linux desktop-specific files
-├── macos/                      # macOS desktop-specific files
-├── web/                        # Web-specific files and configurations
-├── windows/                    # Windows desktop-specific files
-├── test/                       # Test files for unit and widget testing
-├── assets/                     # Static resources (images, fonts, etc.)
-├── pubspec.yaml               # Project configuration and dependencies
-├── pubspec.lock               # Locked dependency versions
-├── README.md                  # Project documentation
-├── .gitignore                 # Git ignore rules
-├── .metadata                  # Flutter project metadata
-└── analysis_options.yaml     # Dart analyzer configuration
+├── lib/
+│   ├── main.dart                          # App entry with routing
+│   ├── models/                            # Data models
+│   │   ├── plant.dart                     # Plant model + sample data
+│   │   └── user_plant.dart                # User's plant instance
+│   └── screens/                           # Feature screens
+│       ├── home/
+│       │   └── main_home_screen.dart      # Home with bottom nav
+│       ├── plants/
+│       │   ├── plant_library_screen.dart  # Browse & discover
+│       │   ├── my_plants_screen.dart      # User's collection
+│       │   ├── add_plant_screen.dart      # Add plant form
+│       │   └── plant_detail_screen.dart   # Plant info page
+│       ├── care/
+│       │   └── care_schedule_screen.dart  # Care tasks
+│       └── profile/
+│           └── profile_screen.dart        # Settings & profile
+├── pubspec.yaml                           # Dependencies
+└── README.md                              # Documentation
 ```
 
----
+## Features & Flutter Concepts
 
-## Detailed Folder Analysis
+### 1. Home Dashboard (`main_home_screen.dart`)
+**Concepts**: StatefulWidget, Bottom Navigation, Widget Composition
+- Bottom navigation bar (4 tabs)
+- Quick action cards
+- Today's tasks list
+- Care tips section
+- Floating action button
 
-### 1. `lib/` - Application Logic Hub
+### 2. Plant Library (`plant_library_screen.dart`)
+**Concepts**: ListView, GridView, Filtering, State Management
+- Toggle between grid and list views
+- Horizontal scrolling category filter
+- Dynamic filtering
+- Reusable card widgets
 
-**Purpose**: Contains all Dart source code for your Flutter application.
+### 3. My Plants (`my_plants_screen.dart`)
+**Concepts**: State Management, Interactive Widgets, Conditional Rendering
+- Display user's plant collection
+- Water tracking with timestamps
+- Alert banner for plants needing water
+- Interactive water buttons
+- Empty state handling
 
-**Key Features**:
+### 4. Add Plant Form (`add_plant_screen.dart`)
+**Concepts**: Forms, Validation, User Input, Controllers
+- Form validation
+- Text input fields
+- Horizontal scrolling plant selector
+- Date picker
+- Form submission with loading state
 
-* `main.dart` - Application entry point where `runApp()` is called
-* Organized into subdirectories for better code structure:
+### 5. Plant Detail (`plant_detail_screen.dart`)
+**Concepts**: Navigation with Arguments, Rich Content Display
+- Receive plant data via navigation
+- Display detailed information
+- Custom stat chips
+- Care tips list
+- Call-to-action button
 
-  * `screens/` - UI screens and pages
-  * `widgets/` - Reusable UI components
-  * `services/` - Business logic and API calls
-  * `models/` - Data models and classes
-  * `utils/` - Helper functions and utilities
+### 6. Care Schedule (`care_schedule_screen.dart`)
+**Concepts**: ListView, Checkboxes, State Updates
+- Organized task list
+- Interactive checkboxes
+- Task completion tracking
+- Grouped by time periods
 
-**Example Structure**:
+### 7. Profile (`profile_screen.dart`)
+**Concepts**: Settings UI, List Tiles, Cards
+- User information display
+- Statistics cards
+- Settings list
+- Navigation to sub-pages
 
-```
-lib/
-├── main.dart
-├── screens/
-│   └── responsive_home.dart
-├── widgets/
-├── services/
-└── models/
-```
+## Data Models
 
----
-
-### 2. `android/` - Android Platform Integration
-
-**Purpose**: Contains Android-specific configurations, build scripts, and native code.
-
-**Key Files**:
-
-* `android/app/build.gradle.kts` - App-level build configuration
-* `android/app/src/main/AndroidManifest.xml` - App permissions and metadata
-* `android/app/src/main/kotlin/` - Native Android code (if needed)
-
----
-
-### 3. `ios/` - iOS Platform Integration
-
-**Purpose**: Contains iOS-specific configurations, Xcode project files, and native code.
-
-**Key Files**:
-
-* `ios/Runner/Info.plist` - iOS app configuration and permissions
-* `ios/Runner.xcodeproj/` - Xcode project configuration
-* `ios/Runner/AppDelegate.swift` - iOS app lifecycle management
-
----
-
-### 4. `web/` - Web Platform Support
-
-**Purpose**: Contains web-specific files for running Flutter apps in browsers.
-
-**Key Files**:
-
-* `web/index.html` - Main HTML entry point
-* `web/manifest.json` - Progressive Web App configuration
-* `web/icons/` - Web app icons
-
----
-
-### 5. `test/` - Testing Framework
-
-**Purpose**: Contains all test files for ensuring code quality and functionality.
-
-**Types of Tests**:
-
-* Unit tests
-* Widget tests
-* Integration tests
-
-Default file: `widget_test.dart`
-
----
-
-### 6. `pubspec.yaml` - Project Configuration
-
-**Purpose**: The heart of Flutter project configuration, managing dependencies, assets, and metadata.
-
-**Key Responsibilities**:
-
-* Dependency management
-* Asset registration
-* Font configuration
-* Versioning
-
----
-
-### 7. Platform-Specific Desktop Folders
-
-`linux/`, `macos/`, `windows/` enable Flutter apps to run on desktop platforms with native performance.
-
----
-
-### 8. Supporting Configuration Files
-
-| File                    | Purpose                         |
-| ----------------------- | ------------------------------- |
-| `.gitignore`            | Files Git should ignore         |
-| `.metadata`             | Flutter SDK project metadata    |
-| `analysis_options.yaml` | Dart linting and analyzer rules |
-| `pubspec.lock`          | Locks dependency versions       |
-
----
-
-## Assets Management
-
-### Example Structure
-
-```
-assets/
-├── images/
-├── fonts/
-└── data/
+### Plant Model
+```dart
+- id, name, scientificName
+- category, imageEmoji
+- wateringFrequencyDays
+- sunlight, difficulty
+- description, careTips[]
 ```
 
-### Registering Assets
-
-```yaml
-flutter:
-  assets:
-    - assets/images/
+### UserPlant Model
+```dart
+- id, plant reference
+- nickname, location
+- dateAdded, lastWatered
+- notes
+- Computed: nextWateringDate, needsWatering
 ```
 
+## Navigation Routes
+
+```
+/ → MainHomeScreen (with bottom nav)
+  ├─ Home Tab
+  ├─ Plant Library Tab
+  ├─ My Plants Tab
+  └─ Profile Tab
+
+/plant-library → PlantLibraryScreen
+/my-plants → MyPlantsScreen
+/add-plant → AddPlantScreen
+/plant-detail → PlantDetailScreen (with args)
+/care-schedule → CareScheduleScreen
+/profile → ProfileScreen
+```
+
+## Widget Hierarchy Example
+
+```
+MainHomeScreen (StatefulWidget)
+└── Scaffold
+    ├── body: _screens[_currentIndex]
+    │   └── HomeTab (StatelessWidget)
+    │       └── Scaffold
+    │           ├── AppBar
+    │           └── SingleChildScrollView
+    │               └── Column
+    │                   ├── Welcome Banner (Container)
+    │                   ├── Quick Actions (Row of Cards)
+    │                   ├── Today's Tasks (List of Cards)
+    │                   └── Care Tips (List of Cards)
+    └── BottomNavigationBar
+```
+
+## Key Patterns Used
+
+### 1. Stateless vs Stateful
+- **Stateless**: Display-only widgets (cards, tiles, info)
+- **Stateful**: Interactive widgets (forms, checkboxes, navigation)
+
+### 2. Widget Composition
+- Small, reusable widgets
+- Private widgets (prefixed with `_`) for internal use
+- Public widgets for shared components
+
+### 3. State Management
+- `setState()` for local state
+- Controllers for form inputs
+- Computed properties for derived data
+
+### 4. Navigation
+- Named routes in main.dart
+- `Navigator.pushNamed()` for navigation
+- `ModalRoute.of(context).settings.arguments` for data passing
+
+### 5. Responsive Design
+- MediaQuery for screen dimensions
+- Flexible layouts with Expanded/Flexible
+- Scrollable views for overflow content
+
+## Running the App
+
+```bash
+cd PlantCarePulse
+flutter pub get
+flutter run
+```
+
+## Development Tips
+
+1. **Hot Reload**: Press `r` in terminal for quick updates
+2. **Hot Restart**: Press `R` for full restart
+3. **Debug**: Use `debugPrint()` for logging
+4. **Inspect**: Use Flutter DevTools for widget inspection
+
+## Next Steps
+
+- Add local storage (shared_preferences)
+- Implement notifications
+- Add image support
+- Create onboarding flow
+- Add search functionality
+- Implement data persistence
+
 ---
 
-## Best Practices for Organization
-
-* Use modular folder structure
-* Separate UI, business logic, and data
-* Group files by feature where possible
-* Keep reusable components in `widgets/`
-
----
-
-## IDE Folder View Screenshot
-
-A screenshot of the project folder structure as displayed in the IDE is included in:
-
-`docs/screenshots/`
-
----
-
-## Reflection
-
-Understanding the Flutter project structure helps developers quickly locate files, separate UI from logic, and manage platform-specific configurations efficiently. In team environments, this structured approach reduces confusion, avoids code conflicts, and supports scalable feature development.
-
----
-
-## Conclusion
-
-Flutter’s structured organization enables cross-platform development while maintaining platform-specific optimization. This layout supports scalability, collaboration, and maintainability — key requirements for modern app development.
+This structure demonstrates real-world Flutter app organization while teaching core concepts through practical implementation.
