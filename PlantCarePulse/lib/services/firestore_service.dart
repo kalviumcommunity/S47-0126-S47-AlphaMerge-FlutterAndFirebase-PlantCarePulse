@@ -343,4 +343,204 @@ class FirestoreService {
       throw Exception('Failed to batch update plants: $e');
     }
   }
+
+  // ==================== DEMO/QUERY OPERATIONS ====================
+
+  /// Get all plants stream (for demo purposes)
+  Stream<List<Plant>> getPlantsStream() {
+    return _plantsCollection
+        .orderBy('commonName')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => Plant.fromFirestore(doc))
+            .toList());
+  }
+
+  /// Get plants by category stream
+  Stream<List<Plant>> getPlantsByCategoryStream(String category) {
+    return _plantsCollection
+        .where('category', isEqualTo: category)
+        .orderBy('commonName')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => Plant.fromFirestore(doc))
+            .toList());
+  }
+
+  /// Get user statistics
+  Future<Map<String, int>> getUserStatistics(String userId) async {
+    try {
+      final userPlantsSnapshot = await _userPlantsCollection
+          .where('userId', isEqualTo: userId)
+          .where('isActive', isEqualTo: true)
+          .get();
+
+      int totalPlants = userPlantsSnapshot.docs.length;
+      int needsWater = 0;
+
+      for (var doc in userPlantsSnapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>;
+        final lastWatered = data['lastWatered'] as Timestamp?;
+        final wateringFrequency = data['wateringFrequencyDays'] as int? ?? 7;
+
+        if (lastWatered != null) {
+          final daysSinceWatered = DateTime.now().difference(lastWatered.toDate()).inDays;
+          if (daysSinceWatered >= wateringFrequency) {
+            needsWater++;
+          }
+        } else {
+          needsWater++;
+        }
+      }
+
+      return {
+        'totalPlants': totalPlants,
+        'needsWater': needsWater,
+        'healthy': totalPlants - needsWater,
+      };
+    } catch (e) {
+      throw Exception('Failed to get user statistics: $e');
+    }
+  }
+
+  /// Get user plants stream (for demo purposes)
+  Stream<List<UserPlant>> getUserPlantsStream(String userId) {
+    return getUserPlants(userId);
+  }
+
+  /// Get plants needing water stream
+  Stream<List<UserPlant>> getPlantsNeedingWaterStream(String userId) {
+    return _userPlantsCollection
+        .where('userId', isEqualTo: userId)
+        .where('isActive', isEqualTo: true)
+        .snapshots()
+        .map((snapshot) {
+      List<UserPlant> needsWater = [];
+      
+      for (var doc in snapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>;
+        final lastWatered = data['lastWatered'] as Timestamp?;
+        final wateringFrequency = data['wateringFrequencyDays'] as int? ?? 7;
+
+        bool needsWatering = false;
+        if (lastWatered == null) {
+          needsWatering = true;
+        } else {
+          final daysSinceWatered = DateTime.now().difference(lastWatered.toDate()).inDays;
+          needsWatering = daysSinceWatered >= wateringFrequency;
+        }
+
+        if (needsWatering) {
+          final plant = Plant(
+            id: data['plantId'] ?? '',
+            name: data['plantName'] ?? '',
+            scientificName: data['plantScientificName'] ?? '',
+            category: data['category'] ?? 'Indoor',
+            imageEmoji: data['plantEmoji'] ?? '🌱',
+            wateringFrequencyDays: wateringFrequency,
+            sunlight: data['sunlight'] ?? '',
+            difficulty: data['difficulty'] ?? 'Medium',
+            description: data['description'] ?? '',
+            careTips: List<String>.from(data['careTips'] ?? []),
+          );
+          
+          needsWater.add(UserPlant.fromMap(data, plant, doc.id));
+        }
+      }
+      
+      return needsWater;
+    });
+  }
+
+  /// Get recent care activities stream
+  Stream<List<Map<String, dynamic>>> getRecentCareActivitiesStream(String userId) {
+    return _userPlantsCollection
+        .where('userId', isEqualTo: userId)
+        .where('isActive', isEqualTo: true)
+        .snapshots()
+        .asyncMap((snapshot) async {
+      List<Map<String, dynamic>> allActivities = [];
+      
+      for (var doc in snapshot.docs) {
+        final activitiesSnapshot = await doc.reference
+            .collection('activities')
+            .orderBy('performedAt', descending: true)
+            .limit(10)
+            .get();
+        
+        for (var actDoc in activitiesSnapshot.docs) {
+          final data = actDoc.data();
+          data['id'] = actDoc.id;
+          data['userPlantId'] = doc.id;
+          allActivities.add(data);
+        }
+      }
+      
+      allActivities.sort((a, b) {
+        final aTime = (a['performedAt'] as Timestamp).toDate();
+        final bTime = (b['performedAt'] as Timestamp).toDate();
+        return bTime.compareTo(aTime);
+      });
+      
+      return allActivities.take(20).toList();
+    });
+  }
+
+  /// Get plant by ID
+  Future<Plant?> getPlantById(String plantId) async {
+    try {
+      final doc = await _plantsCollection.doc(plantId).get();
+      if (doc.exists) {
+        return Plant.fromFirestore(doc);
+      }
+      return null;
+    } catch (e) {
+      throw Exception('Failed to get plant: $e');
+    }
+  }
+
+  /// Initialize sample data (for demo purposes)
+  Future<void> initializeSampleData() async {
+    try {
+      // Check if data already exists
+      final plantsSnapshot = await _plantsCollection.limit(1).get();
+      if (plantsSnapshot.docs.isNotEmpty) {
+        return; // Data already exists
+      }
+
+      // Add sample plants
+      final samplePlants = [
+        Plant(
+          id: '1',
+          name: 'Snake Plant',
+          scientificName: 'Sansevieria trifasciata',
+          category: 'Indoor',
+          imageEmoji: '🌿',
+          wateringFrequencyDays: 14,
+          sunlight: 'Low to bright indirect light',
+          difficulty: 'Easy',
+          description: 'A hardy plant that tolerates neglect',
+          careTips: ['Water sparingly', 'Avoid overwatering', 'Tolerates low light'],
+        ),
+        Plant(
+          id: '2',
+          name: 'Pothos',
+          scientificName: 'Epipremnum aureum',
+          category: 'Indoor',
+          imageEmoji: '🍃',
+          wateringFrequencyDays: 7,
+          sunlight: 'Medium to bright indirect light',
+          difficulty: 'Easy',
+          description: 'A trailing vine that purifies air',
+          careTips: ['Water when soil is dry', 'Prune regularly', 'Easy to propagate'],
+        ),
+      ];
+
+      for (var plant in samplePlants) {
+        await _plantsCollection.doc(plant.id).set(plant.toMap());
+      }
+    } catch (e) {
+      throw Exception('Failed to initialize sample data: $e');
+    }
+  }
 }
