@@ -234,6 +234,21 @@ class HomeTab extends StatelessWidget {
                       },
                     ),
                   ),
+                  const SizedBox(height: 12),
+                  // Firebase Storage Demo Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: _QuickActionCard(
+                      icon: Icons.cloud_upload,
+                      title: 'Firebase Storage Upload Demo',
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF6A1B9A), Color(0xFFAB47BC)],
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/storage-demo');
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -1,0 +1,93 @@
+rules_version = '2';
+
+// Firebase Storage Security Rules for PlantCarePulse
+// These rules ensure secure access to user-uploaded files
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check if user owns the resource
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Helper function to validate image file
+    function isValidImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+    
+    // Helper function to check file size (max 5MB)
+    function isValidSize() {
+      return request.resource.size < 5 * 1024 * 1024;
+    }
+    
+    // ==================== USER FILES ====================
+    
+    // User profile pictures
+    match /users/{userId}/profile/{fileName} {
+      // Allow read if authenticated
+      allow read: if isAuthenticated();
+      
+      // Allow write only to own profile, with validation
+      allow write: if isOwner(userId) 
+                   && isValidImage() 
+                   && isValidSize();
+    }
+    
+    // User plant images
+    match /users/{userId}/plants/{plantId}/{fileName} {
+      // Allow read if authenticated
+      allow read: if isAuthenticated();
+      
+      // Allow write only to own plants, with validation
+      allow write: if isOwner(userId) 
+                   && isValidImage() 
+                   && isValidSize();
+    }
+    
+    // Care activity images
+    match /users/{userId}/plants/{plantId}/activities/{fileName} {
+      // Allow read if authenticated
+      allow read: if isAuthenticated();
+      
+      // Allow write only to own activities, with validation
+      allow write: if isOwner(userId) 
+                   && isValidImage() 
+                   && isValidSize();
+    }
+    
+    // Demo/test uploads
+    match /users/{userId}/demo/{fileName} {
+      // Allow read if authenticated
+      allow read: if isAuthenticated();
+      
+      // Allow write only to own demo folder, with validation
+      allow write: if isOwner(userId) 
+                   && isValidImage() 
+                   && isValidSize();
+    }
+    
+    // ==================== PUBLIC ASSETS ====================
+    
+    // Public plant library images (read-only for users)
+    match /public/plants/{plantId}/{fileName} {
+      // Anyone can read public plant images
+      allow read: if true;
+      
+      // Only admins can write (implement admin check in your app)
+      allow write: if false; // Change to admin check when implemented
+    }
+    
+    // ==================== DEFAULT DENY ====================
+    
+    // Deny all other access by default
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -19,10 +19,10 @@ service cloud.firestore {
       allow write: if isOwner(userId);
     }
     
-    // Plants library - read-only for all authenticated users
+    // Plants library - allow read for all authenticated users, write for testing
     match /plants/{plantId} {
       allow read: if isAuthenticated();
-      allow write: if false; // Only admins can write (use Firebase Console)
+      allow write: if isAuthenticated(); // Allow writes for development/testing
     }
     
     // User Plants - users can only access their own plants

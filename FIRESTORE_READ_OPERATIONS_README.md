@@ -322,6 +322,25 @@ flutter run
 - Use category filter chips (All, Indoor, Succulent)
 - Observe filtered results in real-time
 
+## 📊 Data Flow Overview
+
+### Real-time Stream Flow
+```
+Firestore → snapshots() → Stream<QuerySnapshot> → map() → Stream<List<Model>> → StreamBuilder → UI
+```
+
+### One-time Read Flow
+```
+Firestore → get() → Future<DocumentSnapshot> → await → Data → FutureBuilder → UI
+```
+
+### Query with Filters
+```
+Firestore → where() → orderBy() → snapshots() → Filtered Stream → UI
+```
+
+---
+
 ## 🎓 Key Learnings
 
 ### Why Real-time Streams are Useful
