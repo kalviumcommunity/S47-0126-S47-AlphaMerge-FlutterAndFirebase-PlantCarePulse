@@ -219,6 +219,21 @@ class HomeTab extends StatelessWidget {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 12),
+                  // Firestore Demo Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: _QuickActionCard(
+                      icon: Icons.cloud_outlined,
+                      title: 'Firestore Read Operations Demo',
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFFF6F00), Color(0xFFFFB300)],
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/firestore-demo');
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),

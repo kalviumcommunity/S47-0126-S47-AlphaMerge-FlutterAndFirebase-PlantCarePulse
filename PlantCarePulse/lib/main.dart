@@ -13,6 +13,7 @@ import 'screens/profile/profile_screen.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/signup_screen.dart';
 import 'screens/auth/auth_wrapper.dart';
+import 'screens/firestore_demo_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -199,6 +200,9 @@ class PlantCarePulseApp extends StatelessWidget {
         
         // Profile screen
         '/profile': (context) => const ProfileScreen(),
+        
+        // Firestore demo screen
+        '/firestore-demo': (context) => const FirestoreDemoScreen(),
       },
     );
   }
