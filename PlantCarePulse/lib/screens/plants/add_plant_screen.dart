@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../models/plant.dart';
+import '../../services/firestore_service.dart';
 
-// Add plant screen - demonstrates form handling in real use
+// Add plant screen - demonstrates form handling and Firestore write operations
 class AddPlantScreen extends StatefulWidget {
   const AddPlantScreen({super.key});
 
@@ -14,6 +16,7 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
   final _nicknameController = TextEditingController();
   final _locationController = TextEditingController();
   final _notesController = TextEditingController();
+  final _firestoreService = FirestoreService();
 
   Plant? _selectedPlant;
   DateTime _dateAdded = DateTime.now();
@@ -43,17 +46,47 @@ class _AddPlantScreenState extends State<AddPlantScreen> {
         _isSubmitting = true;
       });
 
-      // Simulate saving to database
-      await Future.delayed(const Duration(seconds: 1));
+      try {
+        // Get current user
+        final user = FirebaseAuth.instance.currentUser;
+        if (user == null) {
+          throw Exception('User not authenticated');
+        }
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${_nicknameController.text} added successfully! 🌱'),
-            backgroundColor: Colors.green,
-          ),
+        // Add plant to Firestore with full plant data
+        final plantId = await _firestoreService.addUserPlant(
+          userId: user.uid,
+          plant: _selectedPlant!,
+          nickname: _nicknameController.text.trim(),
+          location: _locationController.text.trim(),
+          notes: _notesController.text.trim(),
         );
-        Navigator.pop(context);
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('${_nicknameController.text} added successfully! 🌱'),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pop(context, true); // Return true to indicate success
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Failed to add plant: ${e.toString()}'),
+              backgroundColor: Colors.red,
+              duration: const Duration(seconds: 4),
+            ),
+          );
+        }
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isSubmitting = false;
+          });
+        }
       }
     }
   }
