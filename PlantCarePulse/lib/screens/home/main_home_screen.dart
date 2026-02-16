@@ -249,6 +249,21 @@ class HomeTab extends StatelessWidget {
                       },
                     ),
                   ),
+                  const SizedBox(height: 12),
+                  // Cloud Functions Demo Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: _QuickActionCard(
+                      icon: Icons.functions,
+                      title: 'Cloud Functions Demo',
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFD32F2F), Color(0xFFFF5252)],
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/cloud-functions-demo');
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
