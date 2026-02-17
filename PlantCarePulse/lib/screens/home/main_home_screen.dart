@@ -264,6 +264,21 @@ class HomeTab extends StatelessWidget {
                       },
                     ),
                   ),
+                  const SizedBox(height: 12),
+                  // Push Notifications Demo Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: _QuickActionCard(
+                      icon: Icons.notifications_active,
+                      title: 'Push Notifications Demo',
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF1976D2), Color(0xFF42A5F5)],
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/notifications-demo');
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
