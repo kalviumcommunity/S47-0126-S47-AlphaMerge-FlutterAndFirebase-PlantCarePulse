@@ -5,6 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'firebase_options.dart';
 
+// Import services
+import 'services/notification_service.dart';
+
 // Import all screens
 import 'screens/home/main_home_screen.dart';
 import 'screens/plants/plant_library_screen.dart';
@@ -19,6 +22,7 @@ import 'screens/auth/auth_wrapper.dart';
 import 'screens/firestore_demo_screen.dart';
 import 'screens/storage_demo_screen.dart';
 import 'screens/cloud_functions_demo_screen.dart';
+import 'screens/notifications_demo_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +34,10 @@ void main() async {
   FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
+  
+  // Initialize push notifications
+  final notificationService = NotificationService();
+  await notificationService.initialize();
   
   runApp(const PlantCarePulseApp());
 }
@@ -220,6 +228,9 @@ class PlantCarePulseApp extends StatelessWidget {
         
         // Cloud Functions demo screen
         '/cloud-functions-demo': (context) => const CloudFunctionsDemoScreen(),
+        
+        // Push Notifications demo screen
+        '/notifications-demo': (context) => const NotificationsDemoScreen(),
       },
     );
   }
